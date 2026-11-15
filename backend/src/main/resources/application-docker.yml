@@ -1,0 +1,19 @@
+# Profile used inside the Docker Compose deployment.
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres:5432/apkrepo
+    username: apkrepo
+    password: apkrepo
+
+apk-repo:
+  storage:
+    root: /var/lib/apk-repo/storage
+  web:
+    # Static distribution of the Kotlin/Wasm web app, built into the image
+    # by the Dockerfile's webbuild stage.
+    static-dir: /app/web
+  repository:
+    # Explicit mapping: the natural env var APKREPO_REPOSITORY_BASE_URL
+    # does not relaxed-bind to "base-url" (that would need BASEURL), so we
+    # map it here. Production must set it to the real (ideally HTTPS) URL.
+    base-url: ${APKREPO_REPOSITORY_BASE_URL:https://apk.example.com}

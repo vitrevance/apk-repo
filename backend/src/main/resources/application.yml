@@ -1,0 +1,63 @@
+spring:
+  application:
+    name: apk-repo-backend
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/apkrepo
+    username: apkrepo
+    password: apkrepo
+
+  flyway:
+    enabled: true
+
+  servlet:
+    multipart:
+      max-file-size: 250MB
+      max-request-size: 250MB
+      file-size-threshold: 1MB
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+
+server:
+  error:
+    include-message: always
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+apk-repo:
+  admin:
+    username: admin
+    password: change-me-in-production
+  storage:
+    root: ./data/storage
+  repository:
+    name: APK Repo
+    base-url: https://apk.example.com
+  publisher:
+    # The F-Droid publication worker runs fdroidserver (fdroid init/update)
+    # inside {storage.root}/fdroid and serves {storage.root}/fdroid/repo at
+    # the /fdroid/repo path. Set enabled=false to stop processing jobs.
+    enabled: true
+    poll-interval-ms: 2000
+    fdroid-command: fdroid
+    key-dname: CN=APK Repo Repo Signing Key, O=apk-repo, C=US
+    command-timeout-sec: 600
+  # web.static-dir is intentionally ABSENT here: null values in YAML bind as
+  # empty strings in Spring, and an empty path would break WebMvcConfig.
+  # The Kotlin default (null) disables SPA serving for local dev and tests;
+  # the docker profile sets /app/web where the Dockerfile copies the build.

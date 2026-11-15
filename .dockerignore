@@ -1,0 +1,13 @@
+.git
+.gradle
+plan
+memory-bank
+implementation_plan.md
+deploy
+backend/.gradle
+backend/build
+backend/data
+web/.gradle
+web/build
+web/data
+**/*.log

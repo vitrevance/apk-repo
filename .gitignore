@@ -1,0 +1,29 @@
+# ── Not needed
+*.md
+!README.md
+
+# ── Tests (Docker build compiles only src/main)
+backend/src/test/
+
+# ── Dev deployment
+deploy/
+
+# ── Gradle wrappers (Docker build uses gradle:8.14.3-jdk21 base images)
+gradlew
+gradlew.bat
+gradle/
+
+# ── Gradle / Kotlin build outputs and caches
+.gradle/
+.kotlin/
+build/
+*.log
+
+# ── Runtime / dev-run data directories
+data/
+
+# ── Dead leftover: only the root .dockerignore is used (context = repo root)
+backend/.dockerignore
+
+# ── OS junk
+.DS_Store
