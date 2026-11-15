@@ -26,6 +26,11 @@ spring:
           time_zone: UTC
 
 server:
+  # Honor X-Forwarded-Proto/Host/Port from TLS-terminating reverse proxies
+  # so request-derived URLs (redirects, actuator links, springdoc's fallback
+  # server URL) use the public https:// scheme instead of the internal
+  # http:// one.
+  forward-headers-strategy: framework
   error:
     include-message: always
 
