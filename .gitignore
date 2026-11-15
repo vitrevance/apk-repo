@@ -2,9 +2,6 @@
 *.md
 !README.md
 
-# ── Tests (Docker build compiles only src/main)
-backend/src/test/
-
 # ── Dev deployment
 deploy/
 

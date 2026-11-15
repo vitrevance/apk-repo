@@ -1,0 +1,39 @@
+name: tests
+
+# Run the backend test suite on every push to main so the commit's
+# test status is visible in the GitHub UI. The image build/publish
+# workflow (docker.yml) is separate and runs only on v* tags.
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      # The repository deliberately does not track the Gradle wrapper (the
+      # Docker build uses gradle:8.14.3-jdk21 base images), so install
+      # Gradle directly. This action also caches ~/.gradle between runs.
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.14.3'
+
+      # Unit tests are pure JVM; the integration tests need Docker for
+      # Testcontainers (postgres:17-alpine), which ubuntu-latest provides.
+      # The fdroid publisher is disabled inside the tests themselves.
+      - name: Run backend tests
+        working-directory: backend
+        run: gradle test --no-daemon
