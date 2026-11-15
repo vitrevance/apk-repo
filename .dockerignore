@@ -4,6 +4,7 @@ plan
 memory-bank
 implementation_plan.md
 deploy
+.github
 backend/.gradle
 backend/build
 backend/data
